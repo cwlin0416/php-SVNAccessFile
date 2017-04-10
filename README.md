@@ -2,6 +2,12 @@
 
 PHP Class to parse and generate SVN access file.
 
+## Todo
+[ ] Read user data from LDAP or AuthUserFile assist manage svn access file.
+[ ] SVN Access file web management interface (Group and ACLs).
+[ ] SVN User web management interface (LDAP or AuthUserFile).
+[ ] SVN Repository web management interface.
+
 ## Example code
 ```php
 <?php
