@@ -1,0 +1,6 @@
+[groups]
+new-group = user1, user2
+
+[repo1:/]
+@new-group = rw
+
