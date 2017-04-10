@@ -3,7 +3,7 @@
 PHP Class to parse and generate SVN access file.
 
 ## Example code
-```
+```php
 <?php
 require "./SVNAccessFile.php";
 use ezsvnaccfile\SVNAccessFile;
