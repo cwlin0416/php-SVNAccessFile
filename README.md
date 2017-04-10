@@ -3,7 +3,7 @@
 PHP Class to parse and generate SVN access file.
 
 ## Example code
-
+```
 try {
 	$file = new SVNAccessFile();
 	$file->load("./svn-access-file");
@@ -14,7 +14,8 @@ try {
 	
 	$item->addMember($itemMember);
 	$file->addACLItem($item);
-	$file->save("./svn-access-file.test");
+	$file->save("./svn-access-file");
 } catch(Exception $exc) {
 	echo $exc->getMessage(). "\n";
 }
+```
