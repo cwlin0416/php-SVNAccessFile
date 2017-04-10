@@ -64,6 +64,9 @@ class SVNAccessFile {
 	}
 	public function load($filename) {
 		$ini_array = @parse_ini_file($filename, true);
+		if( empty($ini_array) ) {
+			return;
+		}
 		foreach($ini_array as $secName => $configItems) {
 			if( $secName == 'groups' ) {
 				// Groups
@@ -226,23 +229,3 @@ class ACLItemMember {
 	}
 }
 
-try {
-	$file = new SVNAccessFile();
-	$file->load("./svn-access-file");
-	$group = new Group("new-group", array("cwlin", "loln"));
-	$file->addGroup($group);
-
-	$item = new ACLItem("/", "taian_erp2");
-	$itemMember = ACLItemMember::withGroup($group, ACLItemMember::PERM_READWRITE);
-	
-	$item->addMember($itemMember);
-	$file->addACLItem($item);
-	$file->save("./svn-access-file.test");
-} catch(Exception $exc) {
-	echo $exc->getMessage(). "\n";
-}
-for($i=0; $i<10; $i++) {
-	$file2 = new SVNAccessFile();
-	$file2->load("./svn-access-file.test");
-	$file2->save("./svn-access-file.test");
-}
