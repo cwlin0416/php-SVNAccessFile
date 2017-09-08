@@ -8,16 +8,40 @@ use ezsvnaccfile\ACLItemMember;
 
 try {
 	$file = new SVNAccessFile();
-	$file->load("./svn-access-file");
-	$group = new Group("new-group", array("user1", "user2"));
-	$file->addGroup($group);
+	$file->load("/home/svn/svn-access-file");
 
-	$item = new ACLItem("/", "repo1");
-	$itemMember = ACLItemMember::withGroup($group, ACLItemMember::PERM_READWRITE);
-	
-	$item->addMember($itemMember);
-	$file->addACLItem($item);
-	$file->save("./svn-access-file");
+	$group = "group1";
+	$members = array(
+		"user1", 
+		"user2",
+		"user3",
+	);
+	$branch = "/branches/ftslp";
+	$repository = "proedu_core";
+
+
+	$group = $file->getGroup($group);
+	if( empty($group) ) {
+		$group = new Group($group, $members);
+		$file->addGroup($group);
+	} else {
+		// Append member
+		foreach($members as $member) {
+			$group->addMember($member);
+		}
+	}
+
+	$aclItem = $file->getACLItem($branch, $repository);
+	if( empty($aclItem) ) {
+		$aclItem = new ACLItem($branch, $repository); 
+		$aclItemMember = ACLItemMember::withGroup($group, ACLItemMember::PERM_READWRITE);
+		$aclItem->addMember($aclItemMember);
+		$file->addACLItem($aclItem);
+	} else {
+		$aclItemMember = ACLItemMember::withGroup($group, ACLItemMember::PERM_READWRITE);
+		$aclItem->addMember($aclItemMember);
+	}
+	$file->save("/home/svn/svn-access-file.new");
 } catch(Exception $exc) {
 	echo $exc->getMessage(). "\n";
 }
